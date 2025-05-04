@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'event_scheduler.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'event-scheduler-db',
+        'USER': 'postgres',
+        'PASSWORD': 'maIam2343PRO',  
+        'HOST': 'localhost',
+        'PORT': '5432', 
     }
 }
 

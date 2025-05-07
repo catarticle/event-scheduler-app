@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'home/styles.css' %}"/>
+  <title>Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!--Предварительное соединение с доменом Google Fonts-->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!--Предварительное соединение с доменом для загрузки шрифтов-->
+  <!--Непосредственное подключение шрифтов-->
+  <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Bellota:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Kaushan+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+  <header class="header">
+    <nav>
+      <ul class="nav__list">
+        <li><a><img src="{% static 'home/calendar.svg' %}" class="logo" alt="Logo"/></a></li>
+        <li><a class="balsamiq-sans-bold">Главная</a></li>
+        <li><a href="#" class="nav__link balsamiq-sans-regular">Мои рекомендации</a></li>
+      </ul>
+    </nav>
+
+    <div class="search-log-in-block">
+      <form class="search-form" action="#" method="get">
+        <input type="text" class="search-input balsamiq-sans-regular" placeholder="Поиск..." aria-label="Найти">
+        <button class="search-button" aria-label="Поиск">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.5 15H14.71L14.43 14.73C15.41 13.59 16 12.11 16 10.5C16 6.91 13.09 4 9.5 4C5.91 4 3 6.91 3 10.5C3 14.09 5.91 17 9.5 17C11.11 17 12.59 16.41 13.73 15.43L14 15.71V16.5L19 21.49L20.49 20L15.5 15Z" 
+                  fill="currentColor"/>
+          </svg>
+        </button>
+    </form>
+
+      <a href="#" class="log-in-button balsamiq-sans-regular">Войти</a>
+    </div>
+
+  </header>
+  <main>
+    <section class="cards">
+      <ul class="cards-list">
+        <li><article class="card">
+          <h3 class="card-title">Event 1</h3>
+        </artice></li>
+        <li><article class="card">
+          <h3 class="card-title">Event 2</h3>
+        </article></li>
+        <li><article class="card">
+          <h3 class="card-title">Event 3</h3>
+        </article></li>
+        <li><article class="card">
+          <h3 class="card-title">Event 4</h3>
+        </article></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

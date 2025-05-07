@@ -1,0 +1,140 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.balsamiq-sans-regular {
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.balsamiq-sans-bold {
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.balsamiq-sans-regular-italic {
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.balsamiq-sans-bold-italic {
+  font-family: "Balsamiq Sans", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e0dbdd;
+  margin-bottom: 100px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+}
+
+.nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+  list-style-type: none;
+  padding-left: 48px;
+  color: #642E76;
+  text-decoration: none;
+}
+
+.nav__link {
+  text-decoration: none;
+  color: #642E76;
+  font-size: 20px;
+}
+
+.nav__link--large {
+  font-size: 24px;
+}
+
+.search-log-in-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.search-form {
+  display: flex;
+  text-align: center;
+}
+
+.log-in-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin: 24px 48px 24px 0px; 
+  text-decoration: none;
+  background-color: #642E76;
+  height: 48px;
+  width: 100px;
+  color: white;
+}
+
+.search-input {
+  padding: 10px;
+  width: 200px;
+  height: 24px;
+  border: none;
+  border-radius: 50px;
+}
+
+.search-button {
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  background-color: #642E76;
+  color: azure;
+  border-radius: 50%;
+  border: none;
+  margin: 0px 0px 0px 8px;
+}
+
+.search-button:hover { /* при наведении курсора на кнопку поиска*/
+  background: #060607;
+  transform: scale(1.1);
+}
+
+.search-button svg {
+  width: 80%; 
+  height: 80%;
+}
+
+.cards {
+  padding-left: 150px;
+  padding-bottom: 100px;
+}
+
+.cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 100px;
+  list-style-type: none;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 500px;
+  background-color: #e0dbdd;
+  color: #642E76;
+}
+

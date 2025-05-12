@@ -1,60 +1,59 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'home/styles.css' %}"/>
-  <title>Document</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"> <!--Предварительное соединение с доменом Google Fonts-->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!--Предварительное соединение с доменом для загрузки шрифтов-->
-  <!--Непосредственное подключение шрифтов-->
-  <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Bellota:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Kaushan+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  
-</head>
-<body>
-  <header class="header">
-    <nav>
-      <ul class="nav__list">
-        <li><a><img src="{% static 'home/calendar.svg' %}" class="logo" alt="Logo"/></a></li>
-        <li><a href="{% url 'home' %}" class="nav__link nav__link--large balsamiq-sans-bold">Главная</a></li>
-        <li><a href="#" class="nav__link balsamiq-sans-regular">Мои рекомендации</a></li>
-      </ul>
-    </nav>
-
-    <div class="search-log-in-block">
-      <form class="search-form" action="#" method="get">
-        <input type="text" class="search-input balsamiq-sans-regular" placeholder="Поиск..." aria-label="Найти">
-        <button class="search-button" aria-label="Поиск">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15.5 15H14.71L14.43 14.73C15.41 13.59 16 12.11 16 10.5C16 6.91 13.09 4 9.5 4C5.91 4 3 6.91 3 10.5C3 14.09 5.91 17 9.5 17C11.11 17 12.59 16.41 13.73 15.43L14 15.71V16.5L19 21.49L20.49 20L15.5 15Z" 
-                  fill="currentColor"/>
-          </svg>
-        </button>
-    </form>
-
-      <a href="{% url 'login' %}" class="log-in-button balsamiq-sans-regular">Войти</a>
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>Приветствуем в EvenToff</h1>
+        <p>Найдите лучшие мероприятия рядом с вами</p>
     </div>
+</section>
 
-  </header>
-  <main>
-    <section class="cards">
-      <ul class="cards-list">
-        <li><article class="card">
-          <h3 class="card-title">Event 1</h3>
-        </artice></li>
-        <li><article class="card">
-          <h3 class="card-title">Event 2</h3>
-        </article></li>
-        <li><article class="card">
-          <h3 class="card-title">Event 3</h3>
-        </article></li>
-        <li><article class="card">
-          <h3 class="card-title">Event 4</h3>
-        </article></li>
-      </ul>
-    </section>
-  </main>
-</body>
-</html>
+<section class="section">
+    <h2 class="section-title">Популярные мероприятия</h2>
+    <div class="events-grid">
+        {% for event in featured_events %}
+        <div class="event-card">
+            <div class="event-image" style="background-image: url('{% if event.photo %}{{ event.photo.url }}{% else %}{% static 'images/default_event.jpg' %}{% endif %}');"></div>
+            <div class="event-info">
+                <h3 class="event-title">{{ event.title }}</h3>
+                <div class="event-meta">
+                    <div class="event-meta-item">
+                        <i class="far fa-calendar-alt"></i> 
+                        {{ event.date|date:"j E Y" }}
+                    </div>
+                    <div class="event-meta-item">
+                        <i class="fas fa-map-marker-alt"></i> 
+                        {{ event.venue.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Ближайшие мероприятия</h2>
+    <div class="events-grid">
+        {% for event in upcoming_events %}
+        <div class="event-card">
+            <div class="event-image" style="background-image: url('{% if event.photo %}{{ event.photo.url }}{% else %}{% static 'media/default_event.jpg' %}{% endif %}');"></div>
+            <div class="event-info">
+                <h3 class="event-title">{{ event.title }}</h3>
+                <div class="event-meta">
+                    <div class="event-meta-item">
+                        <i class="far fa-calendar-alt"></i> 
+                        {{ event.date|date:"j E Y" }}
+                    </div>
+                    <div class="event-meta-item">
+                        <i class="fas fa-map-marker-alt"></i> 
+                        {{ event.venue.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

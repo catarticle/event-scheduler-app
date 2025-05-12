@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EvenToff{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="{% url 'home' %}" class="logo">
+                    <img src="{% static 'media2/logo.svg' %}" alt="Логотип">
+                    <span class="logo-text">EvenToff</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">Главная</a>
+                    <a href="#" class="nav-link">Мои рекомендации</a>
+                    <a href="{% url 'event_list' %}" class="nav-link">Все мероприятия</a>
+                    <form class="search-form" action="{% url 'search' %}" method="GET">
+                        <input type="text" name="q" placeholder="Поиск...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                    <a href="{% url 'login' %}" class="login-btn">Войти</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p>&copy; {% now "Y" %} EvenToff</p>
+        </div>
+    </footer>
+
+    
+</body>
+</html>

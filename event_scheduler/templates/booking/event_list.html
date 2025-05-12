@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section-title">Все мероприятия</h1>
+    <div class="events-grid">
+        {% for event in events %}
+        <div class="event-card">
+            <div class="event-image" style="background-image: url('{{ event.photo.url }}');"></div>
+            <div class="event-info">
+                <h3 class="event-title">{{ event.title }}</h3>
+                <div class="event-meta">
+                    <span><i class="far fa-calendar-alt"></i> {{ event.date|date:"d.m.Y H:i" }}</span>
+                    <span><i class="fas fa-map-marker-alt"></i> {{ event.venue.name }}</span>
+                    <span><i class="fas fa-ruble-sign"></i> {{ event.price }}</span>
+                </div>
+                <p class="event-description">{{ event.description|truncatechars:100 }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

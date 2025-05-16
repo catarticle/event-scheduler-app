@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="event-detail">
+    <h1>{{ event.title }}</h1>
+    
+    <div class="event-image">
+        {% if event.photo %}
+        <img src="{{ event.photo.url }}" alt="{{ event.title }}">
+        {% else %}
+        <img src="{% static 'images/default_event.jpg' %}" alt="Мероприятие">
+        {% endif %}
+    </div>
+    
+    <div class="event-info">
+        <p><strong>Дата:</strong> {{ event.date|date:"d E Y H:i" }}</p>
+        <p><strong>Место:</strong> {{ event.venue.name }}</p>
+        <p><strong>Адрес:</strong> {{ event.venue.address }}</p>
+        <p><strong>Цена:</strong> {{ event.price }} ₽</p>
+        <p><strong>Описание:</strong></p>
+        <p>{{ event.description }}</p>
+    </div>
+    
+    <a href="{% url 'event_list' %}" class="btn-back">← Назад к списку</a>
+</div>
+{% endblock %}

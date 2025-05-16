@@ -15,3 +15,7 @@ def search_view(request):
     else:
         events = Event.objects.none()
     return render(request, 'booking/event_list.html', {'events': events})
+
+def event_detail(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    return render(request, 'booking/event_detail.html', {'event': event})

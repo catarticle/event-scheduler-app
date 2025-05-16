@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Мои рекомендации | EvenToff{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recommendations.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/category-filter.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="recommendations-container">
+    <h1>Мои рекомендации</h1>
+    
+    <!-- Добавляем блок фильтрации -->
+    <div class="category-filter">
+        <h3>Фильтр по категориям:</h3>
+        <form method="get" id="category-filter-form">
+            <div class="categories-list">
+                {% for value, label in theme_choices.items %}
+                <label class="category-option">
+                    <input type="checkbox" 
+                        name="category" 
+                        value="{{ value }}"
+                        {% if value in selected_categories %}checked{% endif %}>
+                    <span class="category-tag">{{ label }}</span>
+                </label>
+                {% endfor %}
+            </div>
+            <button type="submit" class="filter-submit-btn">Применить</button>
+        </form>
+    </div>
+    
+    <div class="events-grid">
+        {% for event in events %}
+        <div class="event-card">
+            <div class="event-image">
+                {% if event.photo %}
+                <img src="{{ event.photo.url }}" alt="{{ event.title }}">
+                {% else %}
+                <img src="{% static 'media2/default_event.jpg' %}" alt="Мероприятие">
+                {% endif %}
+                <span class="event-category {{ event.category|lower }}">
+                    {{ event.get_category_display }}
+                </span>
+            </div>
+            <div class="event-info">
+                <h3>{{ event.title }}</h3>
+                <div class="event-meta">
+                    <span><i class="far fa-calendar-alt"></i> {{ event.date|date:"d.m.Y" }}</span>
+                    <span><i class="fas fa-map-marker-alt"></i> {{ event.venue.name }}</span>
+                </div>
+                <p class="event-description">{{ event.description|truncatechars:100 }}</p>
+                <div class="event-footer">
+                    <span class="event-price">{{ event.price }} ₽</span>
+                    <a href="{% url 'event_detail' event.id %}" class="btn-details">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-events">
+            <i class="far fa-frown"></i>
+            <p>Пока нет рекомендаций. Обновите свои интересы в профиле.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

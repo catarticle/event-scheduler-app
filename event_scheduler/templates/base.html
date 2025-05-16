@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
+
+{% block extra_js %}{% endblock %}
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -20,13 +23,19 @@
                 </a>
                 <nav class="nav-links">
                     <a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">Главная</a>
-                    <a href="#" class="nav-link">Мои рекомендации</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'recommendations' %}" class="nav-link {% if request.path == '/recommendations/' %}active{% endif %}">Мои рекомендации</a>
+                    {% endif %}
                     <a href="{% url 'event_list' %}" class="nav-link">Все мероприятия</a>
                     <form class="search-form" action="{% url 'search' %}" method="GET">
                         <input type="text" name="q" placeholder="Поиск...">
                         <button type="submit"><i class="fas fa-search"></i></button>
                     </form>
-                    <a href="{% url 'login' %}" class="login-btn">Войти</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="login-btn">Профиль</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="login-btn">Войти</a>
+                    {% endif %}
                 </nav>
             </div>
         </div>

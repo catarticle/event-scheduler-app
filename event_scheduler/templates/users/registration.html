@@ -1,45 +1,82 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Регистрация</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="register-form">
     <h2>Регистрация</h2>
     
-    {% if form.errors %}
-        <ul>
-            {% for error in form.errors.values %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
     {% endif %}
-
-    <form method="post">
+    
+    <form method="POST">
         {% csrf_token %}
         
-        <p>
-            <label>Логин:</label>
-            <input type="text" name="username" required>
-        </p>
-
-        <p>
-            <label>Email:</label>
-            <input type="email" name="email" required>
-        </p>
-
-        <p>
-            <label>Пароль:</label>
-            <input type="password" name="password1" required>
-        </p>
-
-        <p>
-            <label>Подтверждение пароля:</label>
-            <input type="password" name="password2" required>
-        </p>
-
-        <button type="submit">Зарегистрироваться</button>
+        <div class="form-group">
+            <label for="id_username">Логин</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="error">Пользователь с таким логином уже существует</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_email">Почта</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error">Этот почта уже используется</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_phone">Номер телефона</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}  
+                <div class="error">Этот номер телефона уже используется</div>
+            {% endif %}
+        </div>
+        
+        <!-- Блок выбора интересов -->
+        <div class="form-group interests-section">
+            <h3>Какие мероприятия вас интересуют?</h3>
+            <div class="interests-grid">
+                {% for value, label in form.fields.interests.choices %}
+                <label class="interest-option">
+                    <input type="checkbox" name="interests" value="{{ value }}"
+                           {% if value in form.interests.value %}checked{% endif %}>
+                    <span class="interest-icon">{{ label|slice:"0:1" }}</span>
+                    <span class="interest-label">{{ label|slice:"2:" }}</span>
+                </label>
+                {% endfor %}
+            </div>
+            {% if form.interests.errors %}
+                <div class="error">{{ form.interests.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_pasword1">Пароль</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <div class="error">{{ form.password1.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_password2">Подтвердите пароль</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <div class="error">{{ form.password2.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
     </form>
-
-    <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
-</body>
-</html>
+    
+    <p class="login-link">Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+</div>
+{% endblock %}

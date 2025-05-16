@@ -9,12 +9,18 @@
     </div>
 </section>
 
-<section class="section">
+<!-- Раздел "Популярные мероприятия" (показывается всем) -->
+{% if recommended_events %}
+<section class="section recommended-section">
     <h2 class="section-title">Популярные мероприятия</h2>
     <div class="events-grid">
-        {% for event in featured_events %}
+        {% for event in recommended_events %}
         <div class="event-card">
-            <div class="event-image" style="background-image: url('{% if event.photo %}{{ event.photo.url }}{% else %}{% static 'images/default_event.jpg' %}{% endif %}');"></div>
+            <div class="event-image" style="background-image: url('{% if event.photo %}{{ event.photo.url }}{% else %}{% static 'images/default_event.jpg' %}{% endif %}');">
+                <span class="event-category {{ event.category|lower }}">
+                    {{ event.get_category_display }}
+                </span>
+            </div>
             <div class="event-info">
                 <h3 class="event-title">{{ event.title }}</h3>
                 <div class="event-meta">
@@ -27,18 +33,28 @@
                         {{ event.venue.name }}
                     </div>
                 </div>
+                <div class="event-footer">
+                    <span class="event-price">{{ event.price }} ₽</span>
+                    <a href="{% url 'event_detail' event.id %}" class="btn-details">Подробнее</a>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </section>
+{% endif %}
 
+<!-- Раздел "Ближайшие мероприятия" (показывается всем) -->
 <section class="section">
     <h2 class="section-title">Ближайшие мероприятия</h2>
     <div class="events-grid">
         {% for event in upcoming_events %}
         <div class="event-card">
-            <div class="event-image" style="background-image: url('{% if event.photo %}{{ event.photo.url }}{% else %}{% static 'media/default_event.jpg' %}{% endif %}');"></div>
+            <div class="event-image" style="background-image: url('{% if event.photo %}{{ event.photo.url }}{% else %}{% static 'images/default_event.jpg' %}{% endif %}');">
+                <span class="event-category {{ event.category|lower }}">
+                    {{ event.get_category_display }}
+                </span>
+            </div>
             <div class="event-info">
                 <h3 class="event-title">{{ event.title }}</h3>
                 <div class="event-meta">
@@ -50,6 +66,10 @@
                         <i class="fas fa-map-marker-alt"></i> 
                         {{ event.venue.name }}
                     </div>
+                </div>
+                <div class="event-footer">
+                    <span class="event-price">{{ event.price }} ₽</span>
+                    <a href="{% url 'event_detail' event.id %}" class="btn-details">Подробнее</a>
                 </div>
             </div>
         </div>

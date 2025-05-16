@@ -1,31 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Вход</title>
-</head>
-<body>
-    <h2>Вход</h2>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Вход | EvenToff{% endblock %}
+
+{% block content %}
+<div class="login-form">
+    <h2>Вход в аккаунт</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     
     {% if form.errors %}
-        <p>Неверный логин или пароль.</p>
+        <div class="alert-error">
+            Неверный логин или пароль. Пожалуйста, попробуйте снова.
+        </div>
     {% endif %}
 
     <form method="post">
         {% csrf_token %}
         
-        <p>
-            <label>Логин:</label>
-            <input type="text" name="username" required>
-        </p>
+        <div class="form-group">
+            <label for="id_username">Логин</label>
+            <input type="text" name="username" id="id_username" required>
+        </div>
 
-        <p>
-            <label>Пароль:</label>
-            <input type="password" name="password" required>
-        </p>
+        <div class="form-group">
+            <label for="id_password">Пароль</label>
+            <input type="password" name="password" id="id_password" required>
+        </div>
 
-        <button type="submit">Войти</button>
+        <div class="form-options">
+            <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember_me">
+                <label for="remember">Запомнить меня</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Войти</button>
     </form>
-
-    <p>Нет аккаунта? <a href="{% url 'registration' %}">Регистрация</a></p>
-</body>
-</html>
+    
+    <div class="auth-links">
+        <p>Нет аккаунта? <a href="{% url 'registration' %}">Зарегистрироваться</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+<div class="event-card">
+    <div class="event-image">
+        {% if event.photo %}
+        <img src="{{ event.photo.url }}" alt="{{ event.title }}">
+        {% else %}
+        <img src="{% static 'media2/default_event.jpg' %}" alt="Мероприятие">
+        {% endif %}
+        <span class="event-category {{ event.category|lower }}">
+            {{ event.get_category_display }}
+        </span>
+    </div>
+    <div class="event-info">
+        <h3>{{ event.title }}</h3>
+        <div class="event-meta">
+            <span><i class="far fa-calendar-alt"></i> {{ event.date|date:"d.m.Y H:i" }}</span>
+            <span><i class="fas fa-map-marker-alt"></i> {{ event.venue.name }}</span>
+            <span><i class="fas fa-tag"></i> {{ event.get_category_display }}</span>
+        </div>
+        <p class="event-description">{{ event.description|truncatechars:100 }}</p>
+        <div class="event-footer">
+            <span class="event-price">{{ event.price }} ₽</span>
+            <a href="{% url 'event_detail' event.id %}" class="btn-details">Подробнее</a>
+        </div>
+    </div>
+</div>

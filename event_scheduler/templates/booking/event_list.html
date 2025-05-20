@@ -3,20 +3,41 @@
 
 {% block content %}
 <section class="section">
-    <h1 class="section-title">Все мероприятия</h1>
+    <div class="section-header">
+        <h1 class="section-title">Все мероприятия</h1>
+    </div>
+    
     <div class="events-grid">
         {% for event in events %}
         <div class="event-card">
-            <div class="event-image" style="background-image: url('{{ event.photo.url }}');"></div>
+            <div class="event-image">
+                {% if event.photo %}
+                <img src="{{ event.photo.url }}" alt="{{ event.title }}">
+                {% else %}
+                <img src="{% static 'media2/default_event.jpg' %}" alt="Мероприятие">
+                {% endif %}
+                <span class="event-category {{ event.category|lower }}">
+                    {{ event.get_category_display }}
+                </span>
+            </div>
             <div class="event-info">
-                <h3 class="event-title">{{ event.title }}</h3>
+                <h3>{{ event.title }}</h3>
                 <div class="event-meta">
                     <span><i class="far fa-calendar-alt"></i> {{ event.date|date:"d.m.Y H:i" }}</span>
                     <span><i class="fas fa-map-marker-alt"></i> {{ event.venue.name }}</span>
-                    <span><i class="fas fa-ruble-sign"></i> {{ event.price }}</span>
+                    <span><i class="fas fa-tag"></i> {{ event.get_category_display }}</span>
                 </div>
                 <p class="event-description">{{ event.description|truncatechars:100 }}</p>
+                <div class="event-footer">
+                    <span class="event-price">{{ event.price }} ₽</span>
+                    <a href="{% url 'event_detail' event.id %}" class="btn-details">Подробнее</a>
+                </div>
             </div>
+        </div>
+        {% empty %}
+        <div class="no-events">
+            <p>На данный момент нет доступных мероприятий</p>
+            <a href="#" class="btn-refresh">Обновить список</a>
         </div>
         {% endfor %}
     </div>

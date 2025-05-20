@@ -115,7 +115,7 @@
     background: #423189;
     color: white;
     padding: 0.5rem 1rem;
-    border-radius: 5px;
+    border-radius: 20px;
     text-decoration: none;
     transition: background 0.3s;
 }
@@ -202,6 +202,7 @@
     border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-size: 0.9rem;
 }
 
 .filter-submit-btn:hover {

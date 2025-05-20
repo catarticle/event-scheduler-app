@@ -11,7 +11,7 @@ class Venue(models.Model):
         return self.name
 
 class Event(models.Model):
-    # Категории мероприятий (должны совпадать с users.models.THEME_CHOICES)
+    # Категории мероприятий 
     CATEGORY_CHOICES = [
         ('MUSIC', '🎵 Музыка'),
         ('SPORT', '⚽ Спорт'),
@@ -27,7 +27,11 @@ class Event(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     photo = models.ImageField(upload_to='events/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
+    # total_seats = models.PositiveIntegerField()
+    available_seats = models.PositiveIntegerField(default=50)
+    
     category = models.CharField(
         max_length=10,
         choices=CATEGORY_CHOICES,
@@ -36,17 +40,14 @@ class Event(models.Model):
     )
 
     def get_photo_url(self):
-        """Возвращает URL фото или дефолтное изображение"""
         if self.photo:
             return self.photo.url
         return static('images/default_event.jpg')
 
     def get_category_display(self):
-        """Возвращает читаемое название категории с иконкой"""
         return dict(self.CATEGORY_CHOICES).get(self.category, self.category)
     
     def get_category_class(self):
-        """Возвращает CSS-класс для категории (для стилизации)"""
         return self.category.lower()
 
     def __str__(self):
@@ -56,3 +57,30 @@ class Event(models.Model):
         ordering = ['date']
         verbose_name = 'Мероприятие'
         verbose_name_plural = 'Мероприятия'
+        
+     
+class Booking(models.Model):
+    user = models.ForeignKey(
+        'users.User',  
+        on_delete=models.CASCADE,  # Удалять брони при удалении пользователя
+        related_name='bookings', 
+        verbose_name="Пользователь"
+    )
+    
+    event = models.ForeignKey(
+        'booking.Event',  
+        on_delete=models.CASCADE,  # Удалять брони при удалении мероприятия
+        verbose_name="Мероприятие"
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_cancelled = models.BooleanField(default=False) # Потом продолжить реализовывать отмену брони мероприятия
+    
+    
+    
+    class Meta:
+        verbose_name = "Бронирование"
+        verbose_name_plural = "Бронирования"
+       
+        
+    

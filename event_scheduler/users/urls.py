@@ -20,8 +20,8 @@ urlpatterns = [
          name='logout'),
     
     # Профиль пользователя
-    path('profile/', views.profile, name='profile'),  # Добавляем основной профиль
-    path('profile/edit/', views.profile_edit, name='profile_edit'),  # Добавляем редактирование профиля
+    path('profile/', views.profile, name='profile'),  
+    path('profile/edit/', views.profile_edit, name='profile_edit'),  
 
     # Смена пароля
     path('password-change/',

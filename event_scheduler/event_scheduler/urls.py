@@ -16,9 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views  # Импорт стандартных auth views
 from home.views import home_view
-from booking.views import search_view, event_detail 
+from booking.views import search_view, event_detail
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -29,6 +28,7 @@ urlpatterns = [
     path('booking/', include('booking.urls')),
     path('search/', search_view, name='search'),
     path('event/<int:pk>/', event_detail, name='event_detail'),
+    path('booking/', include('booking.urls')),
     
 ]
 

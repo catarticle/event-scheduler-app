@@ -23,11 +23,11 @@ class RegisterForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data['password'])
+        user.set_password(self.cleaned_data['password1'])
         user.add_interests_to_bio()
         if commit:
             user.save()
-            user.interests = self.cleaned_data['interests']  # Это уже список
+            user.interests = self.cleaned_data['interests']  
             user.save()
         
         return user

@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="profile-container">
-    <h2>Личный кабинет {{ user.username }}</h2>
+    <div class="profile-header">
+        <h2>Личный кабинет {{ user.username }}</h2>
         <form action="{% url 'logout' %}" method="post" class="logout-form">
             {% csrf_token %}
             <button type="submit" class="btn-logout">
@@ -11,18 +13,54 @@
         </form>
     </div>
     
-    <div class="profile-info">
-        <div class="info-section">
-            <h3>Основная информация</h3>
-            <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Телефон:</strong> {{ user.phone|default:"Не указан" }}</p>
+    <div class="profile-sections">
+        <div class="profile-info">
+            <div class="info-section">
+                <h3>Основная информация</h3>
+                <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+                <p><strong>Почта:</strong> {{ user.email }}</p>
+                <p><strong>Телефон:</strong> {{ user.phone|default:"Не указан" }}</p>
+            </div>
+            
+            <div class="info-section">
+                <h3>Дополнительная информация</h3>
+                <p><strong>Имя:</strong> {{ user.first_name|default:"Не указан" }}</p>
+                <p><strong>Фамилия:</strong> {{ user.last_name|default:"Не указан" }}</p>
+                <p><strong>Дата рождения:</strong> {{ user.birth_date|date:"d.m.Y"|default:"Не указана" }}</p>
+                <p><strong>О себе:</strong> {{ user.bio|default:"Не указано" }}</p>
+            </div>
         </div>
-        
-        <div class="info-section">
-            <h3>Дополнительная информация</h3>
-            <p><strong>Дата рождения:</strong> {{ user.birth_date|date:"d.m.Y"|default:"Не указана" }}</p>
-            <p><strong>О себе:</strong> {{ user.bio|default:"Не указано" }}</p>
+
+        <div class="bookings-section">
+            <h3>Мои бронирования</h3>
+            {% if user.bookings.all %}
+                <div class="bookings-list">
+                    {% for booking in user.bookings.all %}
+                    <div class="booking-card">
+                        <div class="booking-image">
+                            {% if booking.event.photo %}
+                                <img src="{{ booking.event.photo.url }}" alt="{{ booking.event.title }}">
+                            {% else %}
+                                <img src="{% static 'media2/default_event.jpg' %}" alt="Мероприятие">
+                            {% endif %}
+                        </div>
+                        <div class="booking-info">
+                            <h4>{{ booking.event.title }}</h4>
+                            <p><strong>Дата:</strong> {{ booking.event.date|date:"d E Y H:i" }}</p>
+                            <p><strong>Место:</strong> {{ booking.event.venue.name }}</p>
+                            <p><strong>Адрес:</strong> {{ booking.event.venue.address }}</p>
+                            <p><strong>Цена:</strong> {{ booking.event.price }} ₽</p>
+                            <a href="{% url 'event_detail' booking.event.id %}" class="btn-details">Подробнее</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-bookings">
+                    <p>У вас пока нет бронирований</p>
+                    <a href="{% url 'event_list' %}" class="btn-events">Посмотреть мероприятия</a>
+                </div>
+            {% endif %}
         </div>
     </div>
     

@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
         
-        # Категории мероприятий (должны совпадать с users.models.THEME_CHOICES)
+        # Категории мероприятий 
         CATEGORIES = [
             ('MUSIC', 'Музыка'),
             ('SPORT', 'Спорт'),
@@ -36,37 +36,42 @@ class Command(BaseCommand):
 
         # Площадки с тематикой
         venues = []
-        for _ in range(8):
+        venue_capacities = [50, 100, 150, 200, 300, 500, 800, 1000]
+        for i in range(8):
             venue = Venue.objects.create(
-                name=fake.company() + " " + random.choice(["Hall", "Arena", "Center", "Theater"]),
+                name=f"{fake.company()} {random.choice(['Hall', 'Arena', 'Center', 'Theater'])}",
                 address=fake.address(),
-                capacity=random.choice([100, 300, 500, 1000]),
+                capacity=random.choice(venue_capacities),
                 photo='venues/venue_default.jpg'
             )
             venues.append(venue)
-
-        # Генерация мероприятий по категориям
+            self.stdout.write(f"Created venue: {venue.name} (Capacity: {venue.capacity})")
+            
+        # Генерация мероприятий с учетом мест
         for category_code, category_name in CATEGORIES:
-            # Генерируем 3-5 мероприятий для каждой категории
             for i in range(random.randint(3, 5)):
+                venue = random.choice(venues)
+                
+                # Создаем мероприятие с корректным количеством мест
                 event = Event.objects.create(
                     title=self.generate_event_title(category_code, fake),
-                    venue=random.choice(venues),
+                    venue=venue,
                     date=fake.future_datetime(end_date="+30d"),
                     price=random.randint(500, 5000),
                     description=self.generate_event_description(category_code, fake),
                     photo=random.choice(event_images) if event_images else None,
                     is_featured=random.choice([True, False]),
-                    category=category_code
+                    category=category_code,
+                    available_seats=venue.capacity  # Изначально все места доступны
                 )
                 
-                # Делаем 1-2 мероприятия featured в каждой категории
-                if i < 2 and not Event.objects.filter(is_featured=True, category=category_code).exists():
-                    event.is_featured = True
-                    event.save()
+                self.stdout.write(
+                    f"Created event: {event.title} at {event.venue.name} "
+                    f"({event.available_seats}/{event.venue.capacity} seats available)"
+                )
 
         self.stdout.write(
-            self.style.SUCCESS('Successfully generated events by categories')
+            self.style.SUCCESS(f'Successfully generated {Event.objects.count()} events')
         )
 
     def generate_event_title(self, category, fake):

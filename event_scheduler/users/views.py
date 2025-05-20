@@ -14,15 +14,26 @@ def registration(request):
             user = form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Аккаунт {username} успешно создан!')
-            user.bio = f"Интересы: {dict(THEME_CHOICES).get(form.cleaned_data['interests'])}"
-            events = Event.objects.filter(category__in=user.interests)[:3]
-            user.save()
             
+            # Получаем список выбранных интересов
+            selected_interests = form.cleaned_data['interests']
+            
+            # Преобразуем ключи в читаемые названия
+            theme_dict = dict(THEME_CHOICES)
+            interest_names = [theme_dict.get(interest, interest) for interest in selected_interests]
+            
+            # Формируем строку для bio
+            user.bio = f"Интересы: {', '.join(interest_names)}"
+            
+            # Получаем рекомендации (первые 3 события по интересам)
+            events = Event.objects.filter(category__in=selected_interests)[:3]
+            
+            user.save()
             login(request, user)
             return redirect('profile')
-            
     else:
         form = RegisterForm()
+    
     context = {
         'form': form,
         'theme_choices': dict(THEME_CHOICES)  
@@ -33,7 +44,8 @@ def registration(request):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    bookings = request.user.bookings.select_related('event').all()
+    return render(request, 'users/profile.html', {'user': request.user})
 
 @login_required
 def profile_edit(request):

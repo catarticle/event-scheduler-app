@@ -28,6 +28,20 @@
         <p><strong>Адрес:</strong> {{ event.venue.address }}</p>
         <p><strong>Цена:</strong> {{ event.price }} ₽</p>
         <p><strong>Доступно билетов:</strong> {{event.available_seats}}</p>
+        <p><strong>Рейтинг:</strong> 
+            <span class="stars">
+                {% for i in "12345" %}
+                    {% if event.rating >= forloop.counter %}
+                        <i class="fas fa-star"></i>
+                    {% elif event.rating >= forloop.counter|add:-0.5 %}
+                        <i class="fas fa-star-half-alt"></i>
+                    {% else %}
+                        <i class="far fa-star"></i>
+                    {% endif %}
+                {% endfor %}
+            </span>
+            {{ event.rating }}
+        </p>
         <p><strong>Описание:</strong></p>
         <p>{{ event.description }}</p>
     </div>

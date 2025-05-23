@@ -4,7 +4,8 @@ from django.contrib import messages
 from .forms import RegisterForm
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm
-from booking.models import Event
+from booking.models import Event, Venue
+from django.db.models import Q
 from .models import THEME_CHOICES
 
 def registration(request):
@@ -60,20 +61,52 @@ def profile_edit(request):
 
 @login_required
 def recommendations(request):
-    selected_categories = request.GET.getlist('category')  # Получаем список выбранных категорий
+    selected_categories = request.GET.getlist('category')
+    selected_ratings = request.GET.getlist('rating')
+    selected_cities = request.GET.getlist('city')
     
-    if 'all' in selected_categories or not selected_categories:
-        # Если выбрано "Все" или ничего не выбрано
-        events = Event.objects.all()
-    else:
-        # Фильтруем по выбранным категориям
-        events = Event.objects.filter(category__in=selected_categories)
+    # Начинаем с базового QuerySet
+    events = Event.objects.all()
     
-    # Сортировка по дате (новые сначала)
+    # Фильтрация по категориям
+    if selected_categories and 'all' not in selected_categories:
+        events = events.filter(category__in=selected_categories)
+    
+    # Фильтрация по рейтингу
+    if selected_ratings:
+        rating_filters = Q()
+        for rating in selected_ratings:
+            try:
+                min_rating = float(rating)
+                rating_filters |= Q(rating__gte=min_rating)
+            except ValueError:
+                continue
+        events = events.filter(rating_filters)
+        
+    # Фильтрация по городам
+    if selected_cities:
+        events = events.filter(venue__city__in=selected_cities)
+    
+    # Сортировка и ограничение
     events = events.order_by('-date')[:12]
+    
+    # Получаем список всех городов, где есть мероприятия
+    available_cities = Venue.objects.values_list('city', flat=True).distinct()
+    
+    # Подготовка контекста
+    rating_choices = [
+        ('4.5', '4.5+ ★★★★☆'),
+        ('4.0', '4.0+ ★★★★☆'),
+        ('3.5', '3.5+ ★★★☆☆'),
+        ('3.0', '3.0+ ★★★☆☆'),
+    ]
     
     return render(request, 'users/recommendations.html', {
         'events': events,
         'selected_categories': selected_categories,
-        'theme_choices': dict(THEME_CHOICES)
+        'selected_ratings': selected_ratings,
+        'selected_cities': selected_cities,
+        'theme_choices': dict(THEME_CHOICES),
+        'rating_choices': rating_choices,
+        'available_cities': available_cities,
     })

@@ -1,9 +1,11 @@
 from django.db import models
 from django.templatetags.static import static
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Venue(models.Model):
     name = models.CharField(max_length=200)
     address = models.TextField()
+    city = models.CharField(max_length=100, null=True, blank=True)
     capacity = models.PositiveIntegerField()
     photo = models.ImageField(upload_to='venues/', blank=True, null=True)
 
@@ -37,6 +39,14 @@ class Event(models.Model):
         choices=CATEGORY_CHOICES,
         default='MUSIC',
         verbose_name='Категория'
+    )
+    
+    rating = models.DecimalField(
+    max_digits=3, 
+    decimal_places=1,
+    default=0.0,
+    validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
+    verbose_name='Рейтинг'
     )
 
     def get_photo_url(self):

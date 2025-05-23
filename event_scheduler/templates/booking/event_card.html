@@ -23,4 +23,18 @@
             <a href="{% url 'event_detail' event.id %}" class="btn-details">Подробнее</a>
         </div>
     </div>
+    <div class="event-rating">
+        <span class="stars">
+            {% for i in "12345" %}
+                {% if event.rating >= forloop.counter %}
+                    <i class="fas fa-star"></i>
+                {% elif event.rating >= forloop.counter|add:-0.5 %}
+                    <i class="fas fa-star-half-alt"></i>
+                {% else %}
+                    <i class="far fa-star"></i>
+                {% endif %}
+            {% endfor %}
+        </span>
+        <span class="rating-value">{{ event.rating }}</span>
+    </div>
 </div>

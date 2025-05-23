@@ -15,23 +15,70 @@
 <div class="recommendations-container">
     <h1>Мои рекомендации</h1>
     
-    <!-- Добавляем блок фильтрации -->
-    <div class="category-filter">
-        <h3>Фильтр по категориям:</h3>
-        <form method="get" id="category-filter-form">
-            <div class="categories-list">
-                {% for value, label in theme_choices.items %}
-                <label class="category-option">
-                    <input type="checkbox" 
-                        name="category" 
-                        value="{{ value }}"
-                        {% if value in selected_categories %}checked{% endif %}>
-                    <span class="category-tag">{{ label }}</span>
-                </label>
-                {% endfor %}
-            </div>
-            <button type="submit" class="filter-submit-btn">Применить</button>
-        </form>
+    <div class="filters-container">
+    <!-- Фильтр по категориям -->
+        <div class="category-filter">
+            <h3>Фильтр по категориям:</h3>
+            <form method="get" id="category-filter-form">
+                <div class="categories-list">
+                    <label class="category-option">
+                        <input type="checkbox" name="category" value="all" 
+                            id="all-categories"
+                            {% if 'all' in selected_categories or not selected_categories %}checked{% endif %}>
+                        <span class="category-tag">Все</span>
+                    </label>
+                    {% for value, label in theme_choices.items %}
+                    <label class="category-option">
+                        <input type="checkbox" 
+                            name="category" 
+                            value="{{ value }}"
+                            class="category-checkbox"
+                            {% if value in selected_categories %}checked{% endif %}>
+                        <span class="category-tag">{{ label }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                
+                <!-- Фильтр по рейтингу -->
+                <div class="rating-filter">
+                    <h3>Фильтр по рейтингу:</h3>
+                    <div class="ratings-list">
+                        {% for value, label in rating_choices %}
+                        <label class="rating-option">
+                            <input type="checkbox" 
+                                name="rating" 
+                                value="{{ value }}"
+                                {% if value in selected_ratings %}checked{% endif %}>
+                            <span class="rating-tag">{{ label }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Фильтр по городам -->
+                <div class="city-filter">
+                    <h3>Фильтр по городам:</h3>
+                    <div class="cities-list">
+                        <label class="city-option">
+                            <input type="checkbox" name="city" value="all" 
+                                {% if 'all' in selected_cities or not selected_cities %}checked{% endif %}>
+                            <span class="city-tag">Все города</span>
+                        </label>
+                        {% for city in available_cities %}
+                        <label class="city-option">
+                            <input type="checkbox" 
+                                name="city" 
+                                value="{{ city }}"
+                                {% if city in selected_cities %}checked{% endif %}>
+                            <span class="city-tag">{{ city }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <button type="submit" class="filter-submit-btn">Применить фильтры</button>
+            </form>
+        </div>
     </div>
     
     <div class="events-grid">
@@ -47,6 +94,7 @@
                     {{ event.get_category_display }}
                 </span>
             </div>
+            
             <div class="event-info">
                 <h3>{{ event.title }}</h3>
                 <div class="event-meta">
@@ -59,11 +107,25 @@
                     <a href="{% url 'event_detail' event.id %}" class="btn-details">Подробнее</a>
                 </div>
             </div>
+            <div class="event-rating">
+                <span class="stars">
+                    {% for i in "12345" %}
+                        {% if event.rating >= forloop.counter %}
+                            <i class="fas fa-star"></i>
+                        {% elif event.rating >= forloop.counter|add:-0.5 %}
+                            <i class="fas fa-star-half-alt"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                <span class="rating-value">{{ event.rating }}</span>
+            </div>
         </div>
         {% empty %}
         <div class="no-events">
             <i class="far fa-frown"></i>
-            <p>Пока нет рекомендаций. Обновите свои интересы в профиле.</p>
+            <p>Мероприятий такому запросу нет</p>
         </div>
         {% endfor %}
     </div>

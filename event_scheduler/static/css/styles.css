@@ -131,6 +131,7 @@ body {
     font-weight: 500;
     display: inline-block;
     transition: all 0.3s;
+    border: none;
 }
 
 .btn-primary {
@@ -202,6 +203,7 @@ body {
     background: var(--primary);
     color: white;
     padding: 0.2rem 1rem;
+    border: none;
     border-radius: 20px;
     text-decoration: none;
     font-size: 0.9rem;
@@ -209,6 +211,20 @@ body {
 
 .btn-details:hover {
     background: var(--accent2);
+}
+
+.btn-book {
+    padding: 8px 20px;
+    background: var(--secondary);
+    color: white;
+    border-radius: 20px;
+    border: none;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-book:hover {
+    background: #6A8ABA;
 }
 
 .btn-back {
@@ -512,6 +528,14 @@ body {
     font-size: 14px;
 }
 
+/* padding: 10px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.3s;
+    border: none; */
+
 .badge.paid {
     background-color: #d4edda;
     color: #155724;
@@ -612,6 +636,10 @@ body {
     color: #e74c3c;
     font-size: 0.9em;
     margin-top: 5px;
+}
+
+.alert-error {
+    color: #e74c3c;
 }
 
 /* ====================

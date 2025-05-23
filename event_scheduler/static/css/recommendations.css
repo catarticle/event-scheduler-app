@@ -124,6 +124,7 @@
     background: #2980b9;
 }
 
+
 .no-events {
     grid-column: 1 / -1;
     text-align: center;
@@ -210,4 +211,152 @@
 }
 
 
+/* Стили для фильтра рейтинга */
+.rating-filter {
+    margin: 2px 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
 
+.rating-filter h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #495057;
+}
+
+.ratings-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rating-option {
+    position: relative;
+    cursor: pointer;
+}
+
+.rating-option input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.rating-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: #e9ecef;
+    color: #495057;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.rating-tag:hover {
+    background-color: #dee2e6;
+}
+
+/* Стиль для выбранного рейтинга */
+.rating-option input[type="checkbox"]:checked + .rating-tag {
+    background-color: #423189;
+    color: white;
+}
+
+/* Кастомные кружочки вместо стандартных чекбоксов */
+.rating-option input[type="checkbox"] + .rating-tag::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #adb5bd;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+    transition: all 0.2s;
+}
+
+.rating-option input[type="checkbox"]:checked + .rating-tag::before {
+    background-color: white;
+    border-color: white;
+    box-shadow: inset 0 0 0 4px #423189;
+}
+
+
+/* Стили для фильтра городов */
+.city-filter {
+    margin: 2px 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.city-filter h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #495057;
+}
+
+.cities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.city-option {
+    position: relative;
+    cursor: pointer;
+}
+
+.city-option input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.city-tag {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #e9ecef;
+    color: #495057;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.city-tag:hover {
+    background-color: #dee2e6;
+}
+
+.city-option input[type="checkbox"]:checked + .city-tag {
+    background-color: #423189;
+    color: white;
+}
+
+/* Стили для рейтинга в карточке события */
+.event-rating {
+    bottom: 1rem;
+    right: 1rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+}
+
+.event-rating .stars {
+    color: #FFD700; /* золотой цвет для звезд */
+    font-size: 0.9rem;
+    margin-right: 0.3rem;
+    align-items: center;
+}
+
+.event-rating .stars i {
+    margin: 0 1px;
+}
+
+.event-rating .rating-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark);
+}

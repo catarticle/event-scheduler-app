@@ -75,12 +75,14 @@ class Booking(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     is_cancelled = models.BooleanField(default=False) # Потом продолжить реализовывать отмену брони мероприятия
-    
+    is_paid = models.BooleanField(default=False, verbose_name="Оплачено")
+    payment_date = models.DateTimeField(null=True, blank=True, verbose_name="Дата оплаты")
     
     
     class Meta:
         verbose_name = "Бронирование"
         verbose_name_plural = "Бронирования"
+        ordering = ['-created_at']
        
         
     

@@ -50,6 +50,20 @@
                             <p><strong>Место:</strong> {{ booking.event.venue.name }}</p>
                             <p><strong>Адрес:</strong> {{ booking.event.venue.address }}</p>
                             <p><strong>Цена:</strong> {{ booking.event.price }} ₽</p>
+
+                        <div class="booking-status">
+                            {% if booking.is_paid %}
+                                <span class="badge paid">Оплачено {{ booking.payment_date|date:"d.m.Y H:i" }}</span>
+                            {% elif booking.is_cancelled %}
+                                <span class="badge cancelled">Отменено</span>
+                            {% else %}
+                                <form method="post" action="{% url 'process_payment' booking.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-pay">Оплатить билет</button>
+                                </form>
+                            {% endif %}
+                        </div>
+
                             <a href="{% url 'event_detail' booking.event.id %}" class="btn-details">Подробнее</a>
                         </div>
                     </div>

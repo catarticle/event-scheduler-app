@@ -44,7 +44,7 @@ def registration(request):
 
 @login_required
 def profile(request):
-    bookings = request.user.bookings.select_related('event').all()
+    bookings = request.user.bookings.select_related('event').order_by('-created_at')
     return render(request, 'users/profile.html', {'user': request.user})
 
 @login_required

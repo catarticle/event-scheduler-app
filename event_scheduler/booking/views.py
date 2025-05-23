@@ -3,6 +3,9 @@ from django.db.models import Q
 from .models import Event, Booking
 from django.db import transaction
 from django.contrib import messages
+from django.utils import timezone
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 def event_list(request):
     events = Event.objects.all().order_by('date')
@@ -51,3 +54,25 @@ def event_detail(request, pk):
         'is_booked': is_booked
     })
     
+    
+@require_POST
+@login_required
+@transaction.atomic
+def process_payment(request, booking_id):
+    booking = get_object_or_404(
+        Booking.objects.select_for_update(),
+        id=booking_id,
+        user=request.user
+    )
+    
+    if booking.is_paid:
+        messages.warning(request, "Это бронирование уже оплачено!")
+        return redirect('profile')
+    
+    # Имитация оплаты
+    booking.is_paid = True
+    booking.payment_date = timezone.now()
+    booking.save()
+    
+    messages.success(request, f"Оплата билета на {booking.event.title} прошла успешно!")
+    return redirect('profile')

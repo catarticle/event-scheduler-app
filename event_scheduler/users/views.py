@@ -84,7 +84,7 @@ def recommendations(request):
         events = events.filter(rating_filters)
         
     # Фильтрация по городам
-    if selected_cities:
+    if selected_cities and 'all' not in selected_cities:
         events = events.filter(venue__city__in=selected_cities)
     
     # Сортировка и ограничение

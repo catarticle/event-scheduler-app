@@ -42,6 +42,10 @@ macOS/Linux:
 
 `cd .\event_scheduler\`
 
+- Запустите генерацию мероприятий
+
+- `python manage.py generate_events`
+
 - Запустите приложение с помощью команды:
 
 `python manage.py runserver`

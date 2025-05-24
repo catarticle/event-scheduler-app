@@ -44,7 +44,7 @@ macOS/Linux:
 
 - Запустите генерацию мероприятий
 
-- `python manage.py generate_events`
+`python manage.py generate_events`
 
 - Запустите приложение с помощью команды:
 

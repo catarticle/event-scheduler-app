@@ -29,7 +29,7 @@
 - Активируйте виртуальное окружение:
 
 Windows:
-`cd venv\Scripts\activate`
+`cd .\venv\Scripts\activate`
 
 macOS/Linux:
 `source venv/bin/activate`

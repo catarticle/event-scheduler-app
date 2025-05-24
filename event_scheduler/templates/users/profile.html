@@ -53,7 +53,7 @@
 
                         <div class="booking-status">
                             {% if booking.is_paid %}
-                                <span class="badge paid">Оплачено {{ booking.payment_date|date:"d.m.Y H:i" }}</span>
+                                <span class="badge paid">Оплачено {{ booking.payment_date|date:"d E Y H:i" }}</span>
                             {% elif booking.is_cancelled %}
                                 <span class="badge cancelled">Отменено</span>
                             {% else %}
